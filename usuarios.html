@@ -6,27 +6,32 @@
     <title>Gerenciar Usuários - CheckAi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .btn-voltar { text-decoration: none; color: #3498db; font-weight: bold; font-size: 14px; cursor: pointer; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; padding: 20px; color: #334155; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; }
+        .btn-voltar { text-decoration: none; color: #3498db; font-weight: bold; display: flex; align-items: center; gap: 8px; }
         
-        /* Estilo dos Rótulos Fixos */
+        /* Formulário */
+        .form-cadastro { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; background: #f8fafc; padding: 25px; border-radius: 15px; border: 1px solid #e2e8f0; }
         .field-group { display: flex; flex-direction: column; gap: 8px; }
-        label { font-size: 12px; font-weight: bold; color: #64748b; text-transform: uppercase; }
-        input, select { padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; width: 100%; box-sizing: border-box; }
+        label { font-size: 11px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+        input, select { padding: 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; background: white; }
+        .full-width { grid-column: span 2; }
         
-        .form-cadastro { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: #f8fafc; padding: 25px; border-radius: 15px; margin-bottom: 30px; border: 1px solid #e2e8f0; }
-        .btn-cadastrar { grid-column: span 2; padding: 15px; background: #3498db; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px; }
+        .btn-cadastrar { padding: 15px; background: #3498db; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 16px; transition: 0.3s; }
+        .btn-cadastrar:hover { background: #2980b9; }
+
+        /* Tabela */
+        .section-titulo { margin: 40px 0 15px; font-size: 18px; font-weight: bold; color: #1e293b; display: flex; align-items: center; gap: 10px; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; }
+        th { background: #f1f5f9; text-align: left; color: #475569; font-size: 12px; padding: 15px; text-transform: uppercase; }
+        td { padding: 15px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
         
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th { text-align: left; color: #64748b; font-size: 13px; padding: 10px; border-bottom: 2px solid #f1f5f9; }
-        td { padding: 15px 10px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
         .actions { display: flex; gap: 10px; }
-        .btn-action { border: none; padding: 8px; border-radius: 6px; cursor: pointer; color: white; transition: 0.2s; }
-        .btn-reset { background: #f1c40f; }
-        .btn-delete { background: #e74c3c; }
-        .btn-action:hover { opacity: 0.8; }
+        .btn-action { border: none; width: 35px; height: 35px; border-radius: 8px; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .btn-reset { background: #f1c40f; } /* Amarelo */
+        .btn-delete { background: #e74c3c; } /* Vermelho */
+        .btn-action:hover { transform: scale(1.1); opacity: 0.9; }
     </style>
 </head>
 <body>
@@ -34,7 +39,7 @@
 <div class="container">
     <div class="header">
         <a href="dashboard.html" class="btn-voltar"><i class="fas fa-arrow-left"></i> Voltar ao Menu</a>
-        <h2><i class="fas fa-users-cog"></i> Gerenciar Usuários</h2>
+        <h2 style="margin:0"><i class="fas fa-users-cog"></i> Painel Administrativo</h2>
     </div>
 
     <div class="form-cadastro">
@@ -45,12 +50,5 @@
 
         <div class="field-group">
             <label>E-mail (Login de Acesso)</label>
-            <input type="email" id="email" placeholder="email@empresa.com">
+            <input type="email" id="email" placeholder="email@exemplo.com">
         </div>
-
-        <div class="field-group">
-            <label>Senha Inicial</label>
-            <input type="password" id="senha" placeholder="Crie uma senha">
-        </div>
-
-        <div class="field-group
