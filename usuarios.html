@@ -7,113 +7,138 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-        h2 { color: #2c3e50; display: flex; align-items: center; gap: 10px; }
+        .container { max-width: 900px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .btn-voltar { text-decoration: none; color: #3498db; font-weight: bold; font-size: 14px; }
+        .form-cadastro { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f8fafc; padding: 20px; border-radius: 15px; margin-bottom: 30px; }
+        input, select { padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+        .btn-cadastrar { grid-column: span 2; padding: 15px; background: #3498db; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
         
-        /* Formulário de Cadastro */
-        .form-cadastro { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f8fafc; padding: 20px; border-radius: 20px; margin-bottom: 30px; }
-        input, select { padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; }
-        .btn-salvar { grid-column: span 2; background: #3498db; color: white; border: none; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; }
-        
-        /* Tabela de Usuários */
         table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th { text-align: left; padding: 12px; border-bottom: 2px solid #eee; color: #7f8c8d; }
-        td { padding: 12px; border-bottom: 1px solid #eee; font-size: 14px; }
-        
-        .badge { padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold; }
-        .gestor { background: #e1f5fe; color: #0288d1; }
-        .colab { background: #f3e5f5; color: #7b1fa2; }
-        .inativo { background: #ffebee; color: #c62828; }
-
-        .btn-acao { border: none; background: none; cursor: pointer; color: #95a5a6; font-size: 16px; margin-right: 10px; }
-        .btn-acao:hover { color: #2c3e50; }
-        .btn-reset { color: #f39c12; }
+        th { text-align: left; color: #64748b; font-size: 13px; padding: 10px; border-bottom: 2px solid #f1f5f9; }
+        td { padding: 15px 10px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+        .actions { display: flex; gap: 10px; }
+        .btn-action { border: none; padding: 8px; border-radius: 6px; cursor: pointer; color: white; transition: 0.2s; }
+        .btn-reset { background: #f1c40f; }
+        .btn-delete { background: #e74c3c; }
+        .btn-action:hover { opacity: 0.8; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <a href="index.html" style="text-decoration:none; color:#3498db; font-weight:bold;">← Voltar ao Menu</a>
-    <h2><i class="fas fa-users-cog"></i> Gerenciar Usuários</h2>
+    <div class="header">
+        <a href="dashboard.html" class="btn-voltar"><i class="fas fa-arrow-left"></i> Voltar ao Menu</a>
+        <h2><i class="fas fa-users-cog"></i> Gerenciar Usuários</h2>
+    </div>
 
     <div class="form-cadastro">
         <input type="text" id="nome" placeholder="Nome Completo">
-        <input type="text" id="login" placeholder="Login de Acesso">
+        <input type="email" id="email" placeholder="E-mail (Login)">
         <input type="password" id="senha" placeholder="Senha Inicial">
         <select id="perfil">
             <option value="Colaborador">Colaborador</option>
             <option value="Gestor">Gestor</option>
+            <option value="Admin">Admin</option>
         </select>
-        <button class="btn-salvar" onclick="cadastrar()">CADASTRAR USUÁRIO</button>
+        <button class="btn-cadastrar" onclick="cadastrarUsuario()">CADASTRAR USUÁRIO</button>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th>Nome</th>
-                <th>Login</th>
-                <th>Perfil</th>
-                <th>Ações</th>
+                <th>NOME</th>
+                <th>E-MAIL</th>
+                <th>PERFIL</th>
+                <th>AÇÕES</th>
             </tr>
         </thead>
-        <tbody id="listaUsuarios"></tbody>
+        <tbody id="tabelaUsuarios">
+            </tbody>
     </table>
 </div>
 
-<script>
-    function carregar() {
-        const lista = document.getElementById('listaUsuarios');
-        const usuarios = JSON.parse(localStorage.getItem('db_usuarios') || '[]');
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBkVb8zenJDjsPSFRCiEmcsOHYhKdquT7M",
+        authDomain: "check-ai-9303f.firebaseapp.com",
+        projectId: "check-ai-9303f",
+        storageBucket: "check-ai-9303f.firebasestorage.app",
+        messagingSenderId: "732538707024",
+        appId: "1:732538707024:web:d467b1246c7dcb16030555"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // 1. CARREGAR USUÁRIOS
+    async function carregarUsuarios() {
+        const tbody = document.getElementById('tabelaUsuarios');
+        tbody.innerHTML = "<tr><td colspan='4'>Carregando...</td></tr>";
         
-        lista.innerHTML = usuarios.map((u, index) => `
-            <tr style="opacity: ${u.ativo === false ? '0.5' : '1'}">
-                <td>${u.nome}</td>
-                <td><strong>${u.login}</strong></td>
-                <td><span class="badge ${u.perfil === 'Gestor' ? 'gestor' : 'colab'}">${u.perfil}</span></td>
-                <td>
-                    <button class="btn-acao btn-reset" title="Resetar Senha" onclick="resetar(${index})"><i class="fas fa-key"></i></button>
-                    <button class="btn-acao" title="${u.ativo === false ? 'Ativar' : 'Inativar'}" onclick="alternarStatus(${index})">
-                        <i class="fas ${u.ativo === false ? 'fa-user-plus' : 'fa-user-slash'}"></i>
-                    </button>
-                </td>
-            </tr>
-        `).join('');
+        const q = query(collection(db, "usuarios"), orderBy("nome"));
+        const querySnapshot = await getDocs(q);
+        
+        tbody.innerHTML = "";
+        querySnapshot.forEach((documento) => {
+            const u = documento.data();
+            const id = documento.id;
+
+            tbody.innerHTML += `
+                <tr>
+                    <td><b>${u.nome}</b></td>
+                    <td>${u.login}</td>
+                    <td>${u.perfil}</td>
+                    <td class="actions">
+                        <button class="btn-action btn-reset" onclick="resetarSenha('${id}')" title="Resetar Senha para 123456">
+                            <i class="fas fa-key"></i>
+                        </button>
+                        <button class="btn-action btn-delete" onclick="excluirUsuario('${id}', '${u.nome}')" title="Excluir">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
     }
 
-    function cadastrar() {
+    // 2. CADASTRAR NOVO
+    window.cadastrarUsuario = async () => {
         const nome = document.getElementById('nome').value;
-        const login = document.getElementById('login').value;
+        const login = document.getElementById('email').value;
         const senha = document.getElementById('senha').value;
         const perfil = document.getElementById('perfil').value;
 
         if(!nome || !login || !senha) return alert("Preencha todos os campos!");
 
-        let usuarios = JSON.parse(localStorage.getItem('db_usuarios') || '[]');
-        usuarios.push({ nome, login, senha, perfil, ativo: true });
-        localStorage.setItem('db_usuarios', JSON.stringify(usuarios));
-        
-        alert("Usuário cadastrado com sucesso!");
-        location.reload();
-    }
+        try {
+            await addDoc(collection(db, "usuarios"), { nome, login, senha, perfil });
+            alert("Usuário cadastrado com sucesso!");
+            location.reload();
+        } catch (e) { alert("Erro ao cadastrar."); }
+    };
 
-    function resetar(index) {
-        let usuarios = JSON.parse(localStorage.getItem('db_usuarios'));
-        const nova = prompt("Digite a nova senha para " + usuarios[index].nome);
-        if(nova) {
-            usuarios[index].senha = nova;
-            localStorage.setItem('db_usuarios', JSON.stringify(usuarios));
-            alert("Senha alterada!");
+    // 3. RESETAR SENHA (Define para padrão 123456)
+    window.resetarSenha = async (id) => {
+        if(confirm("Deseja resetar a senha deste usuário para '123456'?")) {
+            await updateDoc(doc(db, "usuarios", id), { senha: "123456" });
+            alert("Senha resetada com sucesso!");
         }
-    }
+    };
 
-    function alternarStatus(index) {
-        let usuarios = JSON.parse(localStorage.getItem('db_usuarios'));
-        usuarios[index].ativo = !usuarios[index].ativo;
-        localStorage.setItem('db_usuarios', JSON.stringify(usuarios));
-        carregar();
-    }
+    // 4. EXCLUIR
+    window.excluirUsuario = async (id, nome) => {
+        if(confirm(`Tem certeza que deseja excluir o usuário ${nome}?`)) {
+            await deleteDoc(doc(db, "usuarios", id));
+            location.reload();
+        }
+    };
 
-    window.onload = carregar;
+    carregarUsuarios();
 </script>
+
 </body>
 </html>
