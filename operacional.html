@@ -5,33 +5,129 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestão Operacional - CheckAi</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; padding: 20px; }
-        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .back-link { text-decoration: none; color: #3498db; font-weight: bold; }
-        .container { max-width: 800px; margin: 0 auto; text-align: center; }
-        h1 { color: #2c3e50; font-size: 24px; }
-        .btn-novo { background: #27ae60; color: white; border: none; padding: 15px 30px; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 10px; }
-        .btn-novo:hover { background: #219150; transform: scale(1.05); }
-        .status-msg { margin-top: 50px; color: #7f8c8d; font-style: italic; }
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            background-color: #f0f2f5; 
+            margin: 0; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+
+        /* Estilização da Logo para manter a identidade */
+        .logo-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .logo-header i {
+            color: #3498db;
+            font-size: 32px;
+        }
+
+        .logo-header h2 {
+            color: #2c3e50;
+            margin: 0;
+            font-size: 28px;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 16px;
+            margin-bottom: 35px;
+            font-weight: 500;
+        }
+
+        /* Botão Novo Registro Modernizado */
+        .btn-novo {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 25px;
+            border-radius: 20px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: 0 8px 20px rgba(39, 174, 96, 0.2);
+        }
+
+        .btn-novo i {
+            font-size: 40px; /* Ícone bem grande como solicitado */
+        }
+
+        .btn-novo:hover {
+            background-color: #219150;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(39, 174, 96, 0.3);
+        }
+
+        /* Link de Voltar discreto e elegante */
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #95a5a6;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .back-link:hover {
+            color: #3498db;
+        }
+
+        .status-msg {
+            margin-top: 25px;
+            color: #bdc3c7;
+            font-size: 13px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
 
-    <div class="header-top">
-        <a href="dashboard.html" class="back-link"><i class="fas fa-arrow-left"></i> Voltar ao Menu</a>
-        <h1>Gestão Operacional</h1>
-        <div style="width: 120px;"></div>
-    </div>
-
     <div class="container">
+        <div class="logo-header">
+            <i class="fas fa-check-circle"></i>
+            <h2>CheckAi</h2>
+        </div>
+        <p class="subtitle">Gestão Operacional</p>
+
         <button class="btn-novo" onclick="location.href='registro.html'">
-            <i class="fas fa-plus"></i> NOVO REGISTRO
+            <i class="fas fa-plus-circle"></i>
+            NOVO REGISTRO
         </button>
 
-        <div class="status-msg">
-            <p>Nenhum registro encontrado.</p>
-        </div>
+        <p class="status-msg">Nenhum registro encontrado hoje.</p>
+
+        <a href="dashboard.html" class="back-link">
+            <i class="fas fa-chevron-left"></i> VOLTAR AO MENU
+        </a>
     </div>
 
 </body>
