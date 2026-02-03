@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão Operacional - CheckAi</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; margin: 0; padding: 20px; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .back-link { text-decoration: none; color: #3498db; font-weight: bold; }
+        .container { max-width: 800px; margin: 0 auto; text-align: center; }
+        h1 { color: #2c3e50; font-size: 24px; }
+        .btn-novo { background: #27ae60; color: white; border: none; padding: 15px 30px; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 10px; }
+        .btn-novo:hover { background: #219150; transform: scale(1.05); }
+        .status-msg { margin-top: 50px; color: #7f8c8d; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <div class="header-top">
+        <a href="dashboard.html" class="back-link"><i class="fas fa-arrow-left"></i> Voltar ao Menu</a>
+        <h1>Gestão Operacional</h1>
+        <div style="width: 120px;"></div>
+    </div>
+
+    <div class="container">
+        <button class="btn-novo" onclick="location.href='novo-registro.html'">
+            <i class="fas fa-plus"></i> + NOVO REGISTRO
+        </button>
+
+        <div class="status-msg">
+            <p>Nenhum registro encontrado.</p>
+        </div>
+    </div>
+
+</body>
+</html>
